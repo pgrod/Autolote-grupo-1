@@ -24,6 +24,27 @@ pool.getConnection((err,connection)=>{
 
 app.use(express.json());
 
+/*-------------------------------------------Middleware---------------------------------------------*/
+
+const authMiddleware=(req,res,next)=>{
+    const authHeader = req.headers['authorization'];
+
+    if(!authHeader){
+        return res.status(401).json({status:'401',message:"Token no proporcionado"});
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, SECRET_KEY, (err,user) => {
+        if(err){
+            return res.status(401).json({status:'401',message:"Token expiro"});
+        }
+        next();
+    })
+
+
+}
+
 /*-------------------------------------------Login---------------------------------------------*/
 
 app.post('/login',async (req,res)=>{
@@ -54,23 +75,20 @@ app.post('/login',async (req,res)=>{
 
 
 
-        // const token=jwt.sign(
-        //     {username: user.username,},
-        //     SECRET_KEY,
-        //     {expiresIn: '1h'}
-        // )
+        const token=jwt.sign(
+            {username: user.username,},
+            SECRET_KEY,
+            {expiresIn: '1h'}
+        )
 
 
 
-
-
-
-        res.status(200).json({status:200,message:"Sucess"});
+        res.status(200).json({status:200,message:"Sucess",token:token});
     })
 
 })
 
-app.get('/gethash/:plainText' ,async (req,res)=>{
+app.get('/gethash/:plainText',authMiddleware ,async (req,res)=>{
     const plainText=req.params.plainText;
     const saltRound=10;
     const hash= await bcrypt.hashSync(plainText,saltRound);
@@ -85,7 +103,7 @@ app.get('/gethash/:plainText' ,async (req,res)=>{
 
 /*-------------------------------------------APIS Clientes---------------------------------------------*/
 
-app.get('/clientes',(req,res)=>{
+app.get('/clientes',authMiddleware,(req,res)=>{
     const sql='SELECT * FROM clientes';
     pool.query(sql,(err,result)=>{
         if(err){
@@ -97,7 +115,7 @@ app.get('/clientes',(req,res)=>{
 })
 
 
-app.post('/clientes',(req,res)=>{
+app.post('/clientes',authMiddleware,(req,res)=>{
     const cliente=req.body;
 
     const sql="insert into clientes (nombre,apellido,correo,telefono,direccion) values (?,?,?,?,?)";
@@ -111,7 +129,7 @@ app.post('/clientes',(req,res)=>{
 })
 
 
-app.put('/clientes',(req,res)=>{
+app.put('/clientes',authMiddleware,(req,res)=>{
     const id=req.params.id;
     const cliente=req.body;
     const sql="update clientes set nombre=?,apellido=?,correo=?, telefono=?, direccion=? where id=?";
@@ -125,7 +143,7 @@ app.put('/clientes',(req,res)=>{
 })
 
 
-app.delete('/clientes',(req,res)=>{
+app.delete('/clientes',authMiddleware,(req,res)=>{
     const cliente=req.body;
     const sql="delete from clientes where id=?";
     pool.query(sql,[cliente.id],(err,result)=>{
@@ -139,7 +157,7 @@ app.delete('/clientes',(req,res)=>{
 
 
 
-app.get('/clientes',(req,res)=>{
+app.get('/clientes',authMiddleware,(req,res)=>{
     const sql='SELECT * FROM clientes';
     pool.query(sql,(err,result)=>{
         if(err){
@@ -152,7 +170,7 @@ app.get('/clientes',(req,res)=>{
 
 /*----------------------------------------APIs Vehiculos-----------------------------------------*/ 
 
-app.get('/vehiculos',(req,res)=>{
+app.get('/vehiculos',authMiddleware,(req,res)=>{
     const sql='SELECT * FROM vehiculos';
     pool.query(sql,(err,result)=>{
         if(err){
@@ -163,7 +181,7 @@ app.get('/vehiculos',(req,res)=>{
     })
 })
 
-app.post('/vehiculos',(req,res)=>{
+app.post('/vehiculos',authMiddleware,(req,res)=>{
     const vehiculo=req.body;
 
     const sql="insert into vehiculos (marca,modelo,año,precio,descripcion) values (?,?,?,?,?)";
@@ -176,7 +194,7 @@ app.post('/vehiculos',(req,res)=>{
     })
 })
 
-app.put('/vehiculos/:id',(req,res)=>{
+app.put('/vehiculos/:id',authMiddleware,(req,res)=>{
     const id=req.params.id;
     const vehiculo=req.body;
     const sql="update vehiculos set marca=?,modelo=?,año=?, precio=?, descripcion=? where id_vehiculo=?";
@@ -189,7 +207,7 @@ app.put('/vehiculos/:id',(req,res)=>{
     })
 })
 
-app.delete('/vehiculos/:id',(req,res)=>{
+app.delete('/vehiculos/:id',authMiddleware,(req,res)=>{
     const id=req.params.id;
     const sql="delete from vehiculos where id_vehiculo=?";
     pool.query(sql,[id],(err,result)=>{
