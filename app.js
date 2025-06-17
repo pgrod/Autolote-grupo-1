@@ -1,41 +1,19 @@
 const express = require('express');
 const pool = require('./config/db'); 
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const SECRET_KEY='MyClaveSecreta';
 const app = express();
-const port=3000;
+const port = process.env.PORT;
+const authMiddleware = require('./middleware/authMiddleware');
 
 require('dotenv').config();
-
-/*-------------------------------------------Base de Datos--------------------------------------*/ 
-
-
-
 
 
 
 app.use(express.json());
 
-/*-------------------------------------------Middleware---------------------------------------------*/
-
-const authMiddleware=(req,res,next)=>{
-    const authHeader = req.headers['authorization'];
-
-    if(!authHeader){
-        return res.status(401).json({status:'401',message:"Token no proporcionado"});
-    }
-
-    const token = authHeader.split(' ')[1];
-
-    jwt.verify(token, SECRET_KEY, (err,user) => {
-        if(err){
-            return res.status(401).json({status:'401',message:"Token expiro"});
-        }
-        next();
-    })
 
 
-}
 
 /*-------------------------------------------Login---------------------------------------------*/
 
@@ -69,7 +47,7 @@ app.post('/login',async (req,res)=>{
 
         const token=jwt.sign(
             {username: user.username,},
-            SECRET_KEY,
+            process.env.SECRET_KEY,
             {expiresIn: '1h'}
         )
 
