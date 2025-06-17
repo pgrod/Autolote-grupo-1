@@ -1,49 +1,20 @@
 const express = require('express');
-const mysql=require('mysql2')
 const jwt = require('jsonwebtoken');
+
 const bcrypt = require('bcrypt');
 const app = express();
-const port=3000;
-const SECRET_KEY='MyClaveSecreta';
-
-/*-------------------------------------------Base de Datos--------------------------------------*/ 
-const pool=mysql.createPool({
-    host:'localhost',
-    user:'root',
-    password:'admin123',
-    database:'flota',
-})
+const pool = require('./config/db');
+const authMiddleware = require('./middleware/authMiddleware');
+require('dotenv').config();
+const port=process.env.PORT;
 
 
 
 
-pool.getConnection((err,connection)=>{
-    err? console.log("No se pudo conectar a la base de datos"):console.log("Conexion Exitosa");
-})
 
 
 app.use(express.json());
 
-/*-------------------------------------------Middleware---------------------------------------------*/
-
-const authMiddleware=(req,res,next)=>{
-    const authHeader = req.headers['authorization'];
-
-    if(!authHeader){
-        return res.status(401).json({status:'401',message:"Token no proporcionado"});
-    }
-
-    const token = authHeader.split(' ')[1];
-
-    jwt.verify(token, SECRET_KEY, (err,user) => {
-        if(err){
-            return res.status(401).json({status:'401',message:"Token expiro"});
-        }
-        next();
-    })
-
-
-}
 
 /*-------------------------------------------Login---------------------------------------------*/
 
@@ -77,7 +48,7 @@ app.post('/login',async (req,res)=>{
 
         const token=jwt.sign(
             {username: user.username,},
-            SECRET_KEY,
+            process.env.SECRET_KEY,
             {expiresIn: '1h'}
         )
 
