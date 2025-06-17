@@ -11,6 +11,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+<<<<<<< Updated upstream
+=======
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
+>>>>>>> Stashed changes
     "express": "^5.1.0",
     "mysql2": "^3.14.1",
     "nodemon": "^3.1.10"
