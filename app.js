@@ -2,9 +2,9 @@ const express = require('express');
 const mysql=require('mysql2')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+
 const app = express();
 const port=3000;
-const SECRET_KEY='MyClaveSecreta';
 
 /*-------------------------------------------Base de Datos--------------------------------------*/ 
 const pool=mysql.createPool({
