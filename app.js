@@ -3,13 +3,12 @@ const bcrypt = require('bcrypt');
 const app = express();
 const port = process.env.PORT;
 const authMiddleware = require('./middleware/authMiddleware');
+const authLogin = require('./routes/authLogin');
+const clientes = require('./routes/clientes');
+const vehiculos = require('./routes/vehiculos');
+const ventas = require('./routes/ventas');
 
 require('dotenv').config();
-
-const authLogin = require('../routes/authLogin');
-const clientes = require('../routes/clientes');
-const vehiculos = require('../routes/vehiculos');
-const ventas = require('../routes/ventas');
 
 app.use(express.json());
 
