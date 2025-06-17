@@ -2,16 +2,18 @@ const express = require('express');
 const mysql=require('mysql2')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
+const SECRET_KEY='MyClaveSecreta';
 const app = express();
 const port=3000;
 
+require('dotenv').config();
+
 /*-------------------------------------------Base de Datos--------------------------------------*/ 
 const pool=mysql.createPool({
-    host:'localhost',
-    user:'root',
-    password:'admin123',
-    database:'flota',
+    host:process.env.DB_HOST,
+    user:process.env.DB_USER,
+    password:process.env.DB_PASSWORD,
+    database:process.env.DB_NAME,
 })
 
 
