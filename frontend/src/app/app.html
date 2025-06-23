@@ -1,0 +1,23 @@
+<div class="app-container" *ngIf="!isLoginPage()">
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <h1>Autolote</h1>
+      </div>
+      <nav class="nav-menu">
+        <a routerLink="/home" routerLinkActive="active" class="nav-link">Inicio</a>
+        <a routerLink="/vehiculos" routerLinkActive="active" class="nav-link">Vehiculos</a>
+        <a routerLink="/clientes" routerLinkActive="active" class="nav-link">Clientes</a>
+        <a routerLink="/ventas" routerLinkActive="active" class="nav-link">Ventas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+<div *ngIf="isLoginPage()">
+  <router-outlet></router-outlet>
+</div>
