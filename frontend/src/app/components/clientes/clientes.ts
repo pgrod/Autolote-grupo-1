@@ -8,7 +8,7 @@ import { ClientesService, Cliente } from '../../services/clientes.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './clientes.html',
-  styleUrl: './clientes.scss'
+  styleUrls: ['./clientes.scss']
 })
 export class ClientesComponent implements OnInit {
   clients: Cliente[] = [];

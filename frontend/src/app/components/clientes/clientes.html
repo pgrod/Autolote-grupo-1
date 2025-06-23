@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let client of clients">
           <td>{{ client.nombre }}</td>
           <td>{{ client.apellido }}</td>
           <td>{{ client.correo }}</td>

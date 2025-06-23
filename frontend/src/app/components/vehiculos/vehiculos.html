@@ -3,30 +3,29 @@
     <h1>Inventario de Vehiculos</h1>
   </div>
 
-    <table class="vehicles-table">
-      <thead>
-        <tr>
-          <th>Marca</th>
-          <th>Modelo</th>
-          <th>Año</th>
-          <th>Precio</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ vehicle.marca }}</td>
-          <td>{{ vehicle.modelo }}</td>
-          <td>{{ vehicle.anio }}</td>
-          <td>L{{ vehicle.precio | number:'1.2-2' }}</td>
-          <td>
-            <span class="status-badge" [class]="vehicle.estado_de_disponibilidad.toLowerCase()">
-              {{ vehicle.estado_de_disponibilidad }}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    
-  </div>
+  <table class="vehicles-table">
+    <thead>
+      <tr>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Año</th>
+        <th>Precio</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehicle of vehicles">
+        <td>{{ vehicle.marca }}</td>
+        <td>{{ vehicle.modelo }}</td>
+        <td>{{ vehicle.anio }}</td>
+        <td>L{{ vehicle.precio | number:'1.2-2' }}</td>
+        <td>
+          <span class="status-badge" [class]="vehicle.estado_de_disponibilidad.toLowerCase()">
+            {{ vehicle.estado_de_disponibilidad }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+

@@ -3,29 +3,28 @@
     <h1>Historial de Ventas</h1>
   </div>
 
-    <table class="sales-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Fecha de venta</th>
-          <th>ID Vehiculo</th>
-          <th>ID Cliente</th>
-          <th>ID Vendedor</th>
-          <th>Precio total</th>
-          <th>Impuestos aplicados</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ sale.id }}</td>
-          <td>{{ sale.fecha_de_venta }}</td>
-          <td>{{ sale.id_vehiculo_vendido }}</td>
-          <td>{{ sale.id_cliente_comprador }}</td>
-          <td>{{ sale.id_del_vendedor }}</td>
-          <td>L{{ sale.precio_total | number:'1.2-2' }}</td>
-          <td>L{{ sale.impuestos_aplicados | number:'1.2-2' }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="sales-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fecha de venta</th>
+        <th>ID Vehiculo</th>
+        <th>ID Cliente</th>
+        <th>ID Vendedor</th>
+        <th>Precio total</th>
+        <th>Impuestos aplicados</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sale of sales">
+        <td>{{ sale.id }}</td>
+        <td>{{ sale.fecha_de_venta }}</td>
+        <td>{{ sale.id_vehiculo_vendido }}</td>
+        <td>{{ sale.id_cliente_comprador }}</td>
+        <td>{{ sale.id_del_vendedor }}</td>
+        <td>L{{ sale.precio_total | number:'1.2-2' }}</td>
+        <td>L{{ sale.impuestos_aplicados | number:'1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

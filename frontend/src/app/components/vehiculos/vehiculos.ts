@@ -8,7 +8,7 @@ import { VehiculosService, Vehiculo } from '../../services/vehiculos.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './vehiculos.html',
-  styleUrl: './vehiculos.scss'
+  styleUrls: ['./vehiculos.scss']
 })
 export class VehiculosComponent implements OnInit {
   vehicles: Vehiculo[] = [];
